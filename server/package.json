@@ -1,0 +1,36 @@
+{
+  "name": "HASH",
+  "version": "0.0.1",
+  "description": "client of HIFI-PUSH",
+  "main": "main.js",
+  "author": "Nestos0",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./dist/bundle.js",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "dependencies": {
+    "@types/socket.io": "^3.0.2",
+    "cors": "^2.8.5",
+    "css-loader": "^7.1.2",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "http": "^0.0.1-security",
+    "joi": "^18.0.0",
+    "lodash": "^4.17.21",
+    "socket.io": "^4.8.1",
+    "sqlite": "^5.1.1",
+    "ts-loader": "^9.5.2",
+    "tsc": "^2.0.4",
+    "typescript": "^5.9.2",
+    "uuid": "^11.1.0",
+    "webpack": "^5.101.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-node-externals": "^3.0.0",
+    "zod": "^4.0.15"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3"
+  }
+}
