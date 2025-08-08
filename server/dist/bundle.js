@@ -16,7 +16,17 @@
   \*********************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-eval("{\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nconst express_1 = __importDefault(__webpack_require__(/*! express */ \"express\"));\nconst http_1 = __webpack_require__(/*! http */ \"http\");\nconst socket_io_1 = __webpack_require__(/*! socket.io */ \"socket.io\");\nconst app = (0, express_1.default)();\nconst httpServer = (0, http_1.createServer)(app);\nconst io = new socket_io_1.Server(httpServer, {\n    cors: {\n        origin: '*', // Adjust for production\n    },\n});\napp.get('/', (req, res) => {\n    res.send('Hello, TypeScript + Express + Socket.IO!');\n});\nio.on('connection', (socket) => {\n    console.log('A user connected:', socket.id);\n    socket.on('message', (msg) => {\n        console.log('Message received:', msg);\n        io.emit('message', `Server received: ${msg}`);\n    });\n    socket.on('disconnect', () => {\n        console.log('User disconnected:', socket.id);\n    });\n});\nconst PORT = process.env.PORT || 3000;\nhttpServer.listen(PORT, () => {\n    console.log(`Server running on http://localhost:${PORT}`);\n});\n\n\n//# sourceURL=webpack://HASH/./src/main.ts?\n}");
+eval("{\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nconst express_1 = __importDefault(__webpack_require__(/*! express */ \"express\"));\nconst http_1 = __webpack_require__(/*! http */ \"http\");\nconst socket_io_1 = __webpack_require__(/*! socket.io */ \"socket.io\");\nconst router_1 = __importDefault(__webpack_require__(/*! ./modules/router */ \"./src/modules/router.ts\"));\nconst app = (0, express_1.default)();\nconst httpServer = (0, http_1.createServer)(app);\nconst io = new socket_io_1.Server(httpServer, {\n    cors: {\n        origin: '*', // Adjust for production\n    },\n});\napp.use('/', router_1.default);\nio.on('connection', (socket) => {\n    console.log('A user connected:', socket.id);\n    socket.on('message', (msg) => {\n        console.log('Message received:', msg);\n        io.emit('message', `Server received: ${msg}`);\n    });\n    socket.on('disconnect', () => {\n        console.log('User disconnected:', socket.id);\n    });\n});\nconst PORT = process.env.PORT || 3000;\nhttpServer.listen(PORT, () => {\n    console.log(`Server running on http://localhost:${PORT}`);\n});\n\n\n//# sourceURL=webpack://HASH/./src/main.ts?\n}");
+
+/***/ }),
+
+/***/ "./src/modules/router.ts":
+/*!*******************************!*\
+  !*** ./src/modules/router.ts ***!
+  \*******************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+eval("{\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nconst express_1 = __importDefault(__webpack_require__(/*! express */ \"express\"));\nconst router = express_1.default.Router();\nrouter.get('/', (req, res) => {\n    res.send('Hello, TypeScript + Express + Socket.IO!');\n});\nexports[\"default\"] = router;\n\n\n//# sourceURL=webpack://HASH/./src/modules/router.ts?\n}");
 
 /***/ }),
 
