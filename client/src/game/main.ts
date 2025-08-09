@@ -1,17 +1,29 @@
 import { AUTO, Game } from "phaser";
-const height = 900;
-const width = 1600;
+import { BootScene } from "./Scenes/BootScene.ts";
+
+const height = 450;
+const width = 800;
 
 const config = {
   type: AUTO,
+  pixelArt: true,
   scale: {
-    mode: Phaser.Scale.RESIZE,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.FIT,
     width: width,
-    height: height
+    height: height,
+  },
+  input: {
+    keyboard: true, // ✅ Explicitly enable keyboard input
+  },
+  physics: {
+    default: "arcade",
+    arcade: {
+      debug: true,
+    },
   },
   backgroundColor: "#2c2c88",
-  secne: []
+  scene: [BootScene],
 };
 
 const StartGame = (parent: string) => {

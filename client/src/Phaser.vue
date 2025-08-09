@@ -12,7 +12,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   if (game.value) {
-    game.value.destory();
+    game.value.destroy();
     game.value = null;
   }
 })
