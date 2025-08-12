@@ -1,0 +1,30 @@
+{
+  "character": {
+    "mushi": {
+      "idle": {
+        "TextureURL": "assets/Sprites/mushi/idle.png",
+        "AtlasURL": "assets/Sprites/mushi/idle.json",
+        "frameRate": 8
+      },
+      "run": {
+        "TextureURL": "assets/Sprites/mushi/run.png",
+        "AtlasURL": "assets/Sprites/mushi/run.json",
+        "frameRate": 15
+      },
+      "attack": {
+        "TextureURL": "assets/Sprites/mushi/attack.png",
+        "AtlasURL": "assets/Sprites/mushi/attack.json",
+        "frameRate": 10,
+        "customFrameData": {
+            "0": { "width": 32, "height": 48 },
+            "1": { "width": 32, "height": 48 }
+        }
+      },
+      "hurt": {
+        "TextureURL": "assets/Sprites/mushi/hurt.png",
+        "AtlasURL": "assets/Sprites/mushi/hurt.json",
+        "frameRate": 8
+      }
+    }
+  } 
+}

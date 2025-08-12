@@ -23,7 +23,9 @@ const config = {
     },
   },
   backgroundColor: "#2c2c88",
-  scene: [BootScene],
+  scene: [
+    BootScene
+  ],
 };
 
 const StartGame = (parent: string) => {
