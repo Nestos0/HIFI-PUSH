@@ -3,6 +3,10 @@ import jsonAnims from "../AnimConfig/test.json" with { type: "json" };
 
 const characterAnims = jsonAnims.character;
 
+interface KeyBindings {
+  [key: string]: Phaser.Input.Keyboard.Key;
+}
+
 type CharacterAnims = {
   animKey: string;
   spriteKey: string;
@@ -88,11 +92,10 @@ export class BootScene extends Phaser.Scene {
   animsMap: Record<string, Phaser.Animations.Animation> = {};
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   mushi!: Character;
-  ACCELERATION = 4000; // 加速度常量
-  MAX_VELOCITY = 400; // 最大速度常量
   accelerationX: number;
   lastDirection: string = "";
-
+  platforms?: Phaser.Physics.Arcade.StaticGroup;
+  keys: KeyBindings = {};
   constructor() {
     super("BootScene");
     this.accelerationX = 0;
@@ -105,6 +108,7 @@ export class BootScene extends Phaser.Scene {
   }
 
   create() {
+    // create 里加一行
     this.animsMap = createAnimsBatch(this, animConfigs);
     this.mushi = new Character(this, "mushi");
     // mushi.playAnim('run')
@@ -114,68 +118,24 @@ export class BootScene extends Phaser.Scene {
     const layer = map.createLayer("layer 1", tiles!, 0, 0);
 
     layer?.setCollisionByExclusion([-1]);
-    this.physics.add.collider(this.mushi, layer!);
+    layer?.setCollisionByProperty({ collides: true });
 
-    this.cursors = this.input.keyboard!.createCursorKeys();
+    this.physics.add.collider(this.mushi, layer!);
+    this.cameras.main.startFollow(this.mushi);
+
     this.input.keyboard?.createCursorKeys();
-    this.mushi.setDragX(2000);
+
+    this.keys = {
+      up: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.UP),
+      left: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
+      right: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT),
+      down: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN),
+    };
   }
 
-  update() {
-    const { mushi, cursors, ACCELERATION, MAX_VELOCITY } = this;
-    // console.log(mushi.body!.touching.up)
+  update(time: number, delta: number) {
+    const { mushi, cursors } = this;
 
-    if (cursors.up.isDown && mushi.body!.touching.down) {
-      mushi.setVelocityY(-800).anims.stop();
-    }
-
-    if (Phaser.Input.Keyboard.JustDown(cursors.left)) {
-      this.lastDirection = "left";
-    } else if (Phaser.Input.Keyboard.JustDown(cursors.right)) {
-      this.lastDirection = "right";
-    }
-
-    const leftDown = cursors.left.isDown;
-    const rightDown = cursors.right.isDown;
-    let direction = 0;
-    let playAnim = "idle";
-    let flipX = mushi.flipX;
-
-    if (leftDown && !rightDown) {
-      direction = -1;
-      playAnim = "run";
-      flipX = true;
-    } else if (rightDown && !leftDown) {
-      direction = 1;
-      playAnim = "run";
-      flipX = false;
-    } else if (leftDown && rightDown && this.lastDirection) {
-      // 同时按下时，使用最后按下的方向
-      direction = this.lastDirection === "left" ? -1 : 1;
-      playAnim = "run";
-      flipX = this.lastDirection === "left";
-    }
-
-    mushi.setAccelerationX(direction * ACCELERATION);
-
-    const velocityX = mushi.body!.velocity.x;
-    const velocityY = mushi.body!.velocity.y;
-    if (Math.abs(velocityX) > MAX_VELOCITY && velocityX !== 0) {
-      mushi
-        .setVelocityX(Math.sign(velocityX) * MAX_VELOCITY)
-        .setAccelerationX(0);
-    } else if (Math.abs(velocityY) > MAX_VELOCITY && velocityY !== 0) {
-      mushi
-        .setVelocityY(Math.sign(velocityY) * MAX_VELOCITY)
-        .setAccelerationY(0);
-
-    }
-
-    if (mushi.anims.currentAnim?.key !== playAnim) {
-      mushi.playAnim(playAnim as "idle" | "run" | "attack" | "hurt");
-    }
-    if (mushi.flipX !== flipX) {
-      mushi.setFlipX(flipX);
-    }
+    mushi.update(this.keys, time, delta);
   }
 }
